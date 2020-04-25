@@ -1,3 +1,5 @@
 /node_modules
 .env
-.eslintrc
+/data
+/seeders/20200425060214-car.js
+/seeders/20200425060231-booking.js
