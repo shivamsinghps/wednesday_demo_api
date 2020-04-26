@@ -4,14 +4,15 @@ const app = require("../app");
 
 test("Handling Invalid routes", async () => {
 	let get_response = await request(app)
-		.get("/");
-	expect(get_response.text)
+		.get("/hytf");
+	console.log(get_response.body.message);
+	expect(get_response.body.message)
 		.toBe("Request Not Found");
 	expect(get_response.statusCode)
 		.toBe(404);
 	let post_response = await request(app)
-		.post("/");
-	expect(post_response.text)
+		.post("/hytf");
+	expect(post_response.body.message)
 		.toBe("Request Not Found");
 	expect(post_response.statusCode)
 		.toBe(404);

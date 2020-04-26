@@ -7,7 +7,7 @@ const {
   Sequelize,
 } = db;
 
-module.exports = sequelize.define('user', {
+module.exports = sequelize.define('users', {
   id: {
     type: Sequelize.INTEGER(11),
     allowNull: false,

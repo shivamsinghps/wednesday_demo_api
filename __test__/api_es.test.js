@@ -6,6 +6,8 @@ describe("GET /api", () => {
 		const response = await request(app)
 			.get("/api");
 		expect(response.statusCode)
-			.toBe(200);
+			.toBe(404);
+		expect(response.body.message)
+			.toBe('Request Not Found');
 	});
 });
