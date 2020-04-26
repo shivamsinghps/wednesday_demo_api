@@ -32,5 +32,6 @@ module.exports = sequelize.define('users', {
   contact_no: {
     type: Sequelize.BIGINT(11),
     allowNull: false,
+    unique: true,
   },
 });

@@ -23,6 +23,7 @@ module.exports = sequelize.define('car', {
   car_con_no: {
     type: Sequelize.BIGINT(11),
     allowNull: false,
+    unique: true,
   },
   driver_name: {
     type: Sequelize.STRING(50),

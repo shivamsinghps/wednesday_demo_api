@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => queryInterface.createTable('bokings', {
+  up: (queryInterface, Sequelize) => queryInterface.createTable('bookings', {
     id: {
       type: Sequelize.INTEGER(11),
       allowNull: false,
@@ -10,7 +10,7 @@ module.exports = {
       type: Sequelize.STRING(11),
       allowNull: false,
       isIn: [
-        ['completed', 'canceled'],
+        ['completed', 'canceled', 'inTransit'],
       ],
     },
     initial_loc: {
@@ -38,5 +38,5 @@ module.exports = {
     updatedAt: Sequelize.DATE,
   }),
 
-  down: (queryInterface, Sequelize) => queryInterface.dropTable('bokings'),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable('bookings'),
 };

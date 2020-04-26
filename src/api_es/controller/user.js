@@ -49,10 +49,10 @@ exports.user_login = (req, res, next) => {
 				if (result) {
 					const token = jwt.sign({
 							email: user.email,
-							userId: user._id,
+							userId: user.id,
 						},
 						process.env.SECRET, {
-							expiresIn: '30',
+							expiresIn: '1h',
 						},
 					);
 					return res.status(200)
@@ -89,7 +89,6 @@ exports.user_delete = (req, res, next) => {
 exports.user = (req, res, next) => {
 	User.findAll()
 		.then((result) => {
-			console.log(result.length);
 			res.status(200)
 				.send(result);
 		})

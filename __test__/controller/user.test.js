@@ -11,7 +11,7 @@ describe("GET /api/users", () => {
 		expect(response.statusCode)
 			.toBe(200);
 		expect(response.body.length)
-			.toBe(13);
+			.toBe(10);
 	});
 });
 
@@ -39,10 +39,10 @@ describe("POST /api/signup", () => {
 			.post("/api/signup")
 			.
 		send({
-			email: 'bul2672x@googlr.com',
-			password: 'bbul22x',
-			user_name: 'Phineas Neames',
-			contact_no: 9991809464,
+			email: 'Abra@goole.com',
+			password: 'bbu64',
+			user_name: 'Phins Neames',
+			contact_no: 9931909464,
 		});
 		expect(response.statusCode)
 			.toBe(201);
@@ -54,7 +54,7 @@ describe("POST /api/signup", () => {
 		expect(dbresponse.statusCode)
 			.toBe(200);
 		expect(dbresponse.body.length)
-			.toBe(14);
+			.toBe(11);
 	});
 });
 

@@ -7,7 +7,7 @@ const {
   Sequelize,
 } = db;
 
-module.exports = sequelize.define('bokings', {
+module.exports = sequelize.define('bookings', {
   id: {
     type: Sequelize.INTEGER(11),
     allowNull: false,
@@ -16,9 +16,9 @@ module.exports = sequelize.define('bokings', {
   },
   booking_status: {
     type: Sequelize.STRING(11),
-    allowNull: false,
+    allowNull: true,
     isIn: [
-      ['completed', 'canceled'],
+      ['completed', 'canceled', 'inTransit'],
     ],
   },
   initial_loc: {
