@@ -10,14 +10,14 @@ module.exports = {
     dialect: 'mysql',
     operatorsAliases: false,
   },
-  // test: {
-  //   username: 'root',
-  //   password: 'shivam1997*',
-  //   database: 'wed',
-  //   host: '127.0.0.1',
-  //   dialect: 'mysql',
-  //   operatorsAliases: false,
-  // },
+  test: {
+    username: 'root',
+    password: 'shivam1997*',
+    database: 'wedtest',
+    host: '127.0.0.1',
+    dialect: 'mysql',
+    operatorsAliases: false,
+  },
   production: {
     username: 'root',
     password: null,

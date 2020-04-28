@@ -5,7 +5,8 @@ const Sequelize = require('sequelize');
 //   host: process.env.DB_HOST,
 //   dialect: 'mysql',
 // });
-const sequelize = new Sequelize('wed', 'root', 'shivam1997*', {
+const DBname = process.env.NODE_ENV === 'test' ? 'wedtest' : 'wed';
+const sequelize = new Sequelize(DBname, 'root', 'shivam1997*', {
   host: '127.0.0.1',
   dialect: 'mysql',
 });

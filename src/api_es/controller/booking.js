@@ -1,5 +1,4 @@
 const error_init = require('../../util_functions/errorcrtr');
-const point_maker = require('../../util_functions/point_maker');
 const Booking = require('../../models/Booking');
 const Car = require('../../models/Car');
 
@@ -12,14 +11,15 @@ const {
 	Sequelize,
 } = db;
 
-
-
 Car.hasMany(Booking, {
 	foreignKey: 'car_id',
 });
+
 Booking.hasOne(Car, {
 	foreignKey: 'id',
+	sourceKey: 'car_id'
 });
+
 
 
 exports.get_user_bookings = (req, res, next) => {
@@ -33,12 +33,10 @@ exports.get_user_bookings = (req, res, next) => {
 
 		})
 		.then((result) => {
-			res.status(200)
-				.send(result);
+			res.json(result);
 		})
-		.catch((err) => error_init(`${err.message} database connection error`, 500));
+		.catch((err) => error_init(`${err.message}database connection error`, 500));
 };
-
 exports.create_user_booking = async (req, res, next) => {
 	var lat1 = parseFloat(req.body.initial_loc[0]);
 	var lng1 = parseFloat(req.body.initial_loc[1]);
@@ -98,8 +96,9 @@ exports.bookings_update = (req, res, next) => {
 			},
 		})
 		.then((result) => {
-			res.status(200)
-				.send(result);
+			res.json({
+				message: 'Updated'
+			});
 		})
 		.catch((err) => error_init(`${err.message} database connection error`, 500));
 };

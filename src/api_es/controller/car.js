@@ -17,15 +17,20 @@ exports.get_nearby_car = async (req, res, next) => {
 	let location = sequelize.literal(`ST_GeomFromText('POINT(${lng} ${lat})')`);
 	let distance = sequelize.fn('ST_Distance_Sphere', sequelize.col('car_location'), location);
 	attributes.push([distance, 'distance']);
-	const instances = await Car.findAll({
-		attributes: attributes,
-		order: [
-			[distance, 'ASC']
-		],
-		where: sequelize.and({
-			car_status: 'open'
-		}, sequelize.where(distance, Sequelize.Op.ne, null)),
-	})
+
+	try {
+		const instances = await Car.findAll({
+			attributes: attributes,
+			order: [
+				[distance, 'ASC']
+			],
+			where: sequelize.and({
+				car_status: 'open'
+			}, sequelize.where(distance, Sequelize.Op.ne, null)),
+		})
+	} catch (err) {
+		error_init(`${err.message}, database error`, 500)
+	}
 
 	res.status(200)
 		.json(instances)
@@ -35,7 +40,7 @@ exports.get_nearby_car = async (req, res, next) => {
 // can use admin db seperate but for ease used type yos
 // User.findOne({
 // where: {
-// type: 'Admin',,
+// type: 'Admin',
 // },
 // })
 // .then((result) => {

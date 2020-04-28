@@ -40,6 +40,20 @@ afterAll(async () => {
 
 });
 
+
+describe("GET /api/bookings", () => {
+	test("Retreving bookings of a user", async () => {
+		const response = await request(app)
+			.get(`/api/bookings`)
+			.set('Authorization', `Bearer ${token}`)
+		expect(response.statusCode)
+			.toBe(200);
+		expect(response.body.length)
+			.toBe(1);
+	});
+});
+
+
 describe("POST /api/book", () => {
 	test("Creating a booking", async () => {
 		const response = await request(app)
@@ -55,18 +69,6 @@ describe("POST /api/book", () => {
 });
 
 
-describe("GET /api/bookings", () => {
-	test("Retreving bookings of a user", async () => {
-		const response = await request(app)
-			.get(`/api/bookings`)
-			.set('Authorization', `Bearer ${token}`)
-		expect(response.statusCode)
-			.toBe(200);
-		expect(response.body.length)
-			.toBe(15);
-	});
-});
-
 describe("PATCH /api/booking_update", () => {
 	test("Updating booking status", async () => {
 		const response = await request(app)
@@ -77,7 +79,7 @@ describe("PATCH /api/booking_update", () => {
 			})
 		expect(response.statusCode)
 			.toBe(200);
-		expect(response.body.length)
-			.toBe(1);
+		expect(response.body.message)
+			.toBe('Updated');
 	});
 });

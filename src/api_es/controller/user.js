@@ -69,7 +69,7 @@ exports.user_login = (req, res, next) => {
 // exports.user_delete = (req, res, next) => {
 // 	User.findOne({
 // 			where: {
-// 				id: req.params.userId,
+// 				id: req.userData.userId,
 // 			},
 // 		})
 // 		.then((result) => {
@@ -90,7 +90,7 @@ exports.user = (req, res, next) => {
 	User.findAll()
 		.then((result) => {
 			res.status(200)
-				.send(result);
+				.json(result);
 		})
 		.catch((err) => next(err));
 };
