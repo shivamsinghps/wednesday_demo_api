@@ -1,6 +1,6 @@
 require('dotenv')
   .config();
-
+const helmet = require('helmet');
 const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -10,6 +10,7 @@ const apis = require('./src/api_es/api');
 const app = express();
 
 app.use(morgan('dev'));
+app.use(helmet());
 
 app.use(bodyParser.urlencoded({
   extended: true,

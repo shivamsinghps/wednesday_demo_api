@@ -4,7 +4,7 @@ const error_init = require('../../util_functions/errorcrtr')
 const User = require('../../models/Users');
 
 exports.user_signup = (req, res, next) => {
-	const user = User.findAll({
+	User.findAll({
 			where: {
 				email: req.body.email,
 			},
@@ -66,26 +66,26 @@ exports.user_login = (req, res, next) => {
 		.catch((err) => next(error_init('Check your Email', 401)));
 };
 
-exports.user_delete = (req, res, next) => {
-	User.findOne({
-			where: {
-				id: req.params.userId,
-			},
-		})
-		.then((result) => {
-			if (result.email === req.userData.email) {
-				result.destroy();
-				res.status(200)
-					.json({
-						message: 'User deleted',
-					});
-			} else {
-				next(error_init('Not Authorised', 401))
-			}
-		})
-		.catch((err) => next(err));
-};
-
+// exports.user_delete = (req, res, next) => {
+// 	User.findOne({
+// 			where: {
+// 				id: req.params.userId,
+// 			},
+// 		})
+// 		.then((result) => {
+// 			if (result.email === req.userData.email) {
+// 				result.destroy();
+// 				res.status(200)
+// 					.json({
+// 						message: 'User deleted',
+// 					});
+// 			} else {
+// 				next(error_init('Not Authorised', 401))
+// 			}
+// 		})
+// 		.catch((err) => next(err));
+// };
+//
 exports.user = (req, res, next) => {
 	User.findAll()
 		.then((result) => {

@@ -14,17 +14,15 @@ router.post('/signup', UserController.user_signup);
 
 router.post('/login', UserController.user_login);
 
-router.delete('/users/:userId', UserController.user_delete);
+// router.delete('/users/:userId', UserController.user_delete);
 
-router.post('/book', BookingController.create_user_booking);
+router.post('/book', checkAuth, BookingController.create_user_booking);
 
-router.patch('/booking_update', BookingController.bookings_update);
+router.patch('/booking_update', checkAuth, BookingController.bookings_update);
 
-router.get('/bookings', BookingController.get_user_bookings);
-//
-// router.get('/cars', checkAdmin, CarController.cars);
-//
-router.get('/nearbycars', CarController.get_nearby_car);
+router.get('/bookings', checkAuth, BookingController.get_user_bookings);
+
+router.get('/nearbycars', checkAuth, CarController.get_nearby_car);
 //
 // router.delete('/car/', checkAdmin, CarController.car_delete);
 

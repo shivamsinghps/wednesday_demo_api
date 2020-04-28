@@ -24,7 +24,7 @@ exports.get_nearby_car = async (req, res, next) => {
 		],
 		where: sequelize.and({
 			car_status: 'open'
-		}, sequelize.where(distance, Sequelize.Op.lte, req.query.maxDistance)),
+		}, sequelize.where(distance, Sequelize.Op.ne, null)),
 	})
 
 	res.status(200)

@@ -25,10 +25,10 @@ Booking.hasOne(Car, {
 exports.get_user_bookings = (req, res, next) => {
 	Booking.findAll({
 			where: {
-				user_id: req.query.userId,
+				user_id: req.userData.userId,
 			},
 			include: [{
-				model: Car,
+				model: Car
 			}],
 
 		})
@@ -36,7 +36,7 @@ exports.get_user_bookings = (req, res, next) => {
 			res.status(200)
 				.send(result);
 		})
-		.catch((err) => error_init(`${err.message}database connection error`, 500));
+		.catch((err) => error_init(`${err.message} database connection error`, 500));
 };
 
 exports.create_user_booking = async (req, res, next) => {
@@ -60,7 +60,7 @@ exports.create_user_booking = async (req, res, next) => {
 	})
 
 	Booking.create({
-			user_id: req.body.userId,
+			user_id: req.userData.userId,
 			initial_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng1} ${lat1})')`),
 			final_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng2} ${lat2})')`),
 			booking_status: 'inTransit',
@@ -68,6 +68,7 @@ exports.create_user_booking = async (req, res, next) => {
 			car_id: instances[0].id
 		})
 		.then((result) => {
+			let book_id = result.id
 			Car.update({
 					car_status: 'inTransit'
 				}, {
@@ -78,6 +79,7 @@ exports.create_user_booking = async (req, res, next) => {
 				.then((result) => {
 					res.status(201)
 						.json({
+							book_id: book_id,
 							message: 'Booking created'
 						})
 				})
@@ -91,14 +93,13 @@ exports.bookings_update = (req, res, next) => {
 			booking_status: req.body.status_up
 		}, {
 			where: {
-				user_id: req.body.userId,
+				user_id: req.userData.userId,
 				booking_status: 'inTransit'
 			},
-
 		})
 		.then((result) => {
 			res.status(200)
 				.send(result);
 		})
-		.catch((err) => error_init(`${err.message}database connection error`, 500));
+		.catch((err) => error_init(`${err.message} database connection error`, 500));
 };

@@ -1,8 +1,25 @@
 const request = require("supertest");
 const app = require("../../app");
 
+const User = require("../../src/models/Users.js")
 
+user = {
+	email: process.env.SAMPLE_EMAIL,
+	password: process.env.SAMPLE_PASS,
+	contact_no: process.env.SAMPLE_CONTACT_NO,
+	user_name: process.env.SAMPLE_USER_NAME
+}
 
+afterAll(async () => {
+	await User.findOne({
+			where: {
+				email: user.email
+			}
+		})
+		.then(result => {
+			result.destroy()
+		})
+});
 
 describe("GET /api/users", () => {
 	test("Retreving the list of users", async () => {
@@ -16,34 +33,11 @@ describe("GET /api/users", () => {
 });
 
 describe("POST /api/signup", () => {
-	test("Checking sign up with existing user", async () => {
-		const response = await request(app)
-			.post("/api/signup")
-			.
-		send({
-			email: 'pneames1@merriam-webster.com',
-			password: 'Rwehwl',
-			user_name: 'Phineas Neames',
-			contact_no: 1221809464,
-		});
-		expect(response.statusCode)
-			.toBe(409);
-		expect(response.body.message)
-			.toBe('User Exists');
-	});
-});
-
-describe("POST /api/signup", () => {
 	test("Checking sign up with new user", async () => {
 		const response = await request(app)
 			.post("/api/signup")
 			.
-		send({
-			email: 'Abra@goole.com',
-			password: 'bbu64',
-			user_name: 'Phins Neames',
-			contact_no: 9931909464,
-		});
+		send(user);
 		expect(response.statusCode)
 			.toBe(201);
 		expect(response.body.message)
@@ -63,48 +57,13 @@ describe("POST /api/login", () => {
 	test("Checking authentication with valid email and pass", async () => {
 		const response = await request(app)
 			.post("/api/login")
-			.
-		send({
-			email: 'rcrimmins0@cnn.com',
-			password: 'NpAwQjd0o',
-		});
+			.send({
+				email: user.email,
+				password: user.password,
+			});
 		expect(response.statusCode)
 			.toBe(200);
 		expect(response.body.message)
 			.toBe('Auth successful');
-	});
-});
-
-
-describe("POST /api/login", () => {
-	test("Checking authentication with invalid email", async () => {
-		const inv_response = await request(app)
-			.post("/api/login")
-			.
-		send({
-			email: 'rcrimmins0@cn.com',
-			password: 'NpAwQjd0o',
-		});
-		expect(inv_response.statusCode)
-			.toBe(401);
-		expect(inv_response.body.message)
-			.toBe('Check your Email');
-	});
-});
-
-
-describe("POST /api/login", () => {
-	test("Checking authentication with invalid password", async () => {
-		const inv_pass_response = await request(app)
-			.post("/api/login")
-			.
-		send({
-			email: 'rcrimmins0@cnn.com',
-			password: 'NpAwQjd0',
-		});
-		expect(inv_pass_response.statusCode)
-			.toBe(401);
-		expect(inv_pass_response.body.message)
-			.toBe('Check password');
 	});
 });
