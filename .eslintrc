@@ -7,18 +7,16 @@
             "jsx": true
         }
     },
+    plugins: ['prettier'],
   "env": {
     "browser": true,
     "node": true,
     "es6": true,
-    "mocha": true
   },
   "rules": {
     "no-console": "off",
     "no-unused-vars": ["error", { "argsIgnorePattern": "next" }],
     "valid-jsdoc": ["error", {
-      "requireReturn": true,
-      "requireReturnType": true,
       "requireParamDescription": true,
       "requireReturnDescription": true
     }],
@@ -28,6 +26,10 @@
             "MethodDefinition": true,
             "ClassDeclaration": true
         }
-    }]
+    }],
+indent: ['error', 'tab'],
+'linebreak-style': ['error', 'unix'],
+quotes: ['error', 'single'],
+semi: ['error', 'never'],
   }
 }

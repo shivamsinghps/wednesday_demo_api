@@ -19,9 +19,6 @@ Booking.hasOne(Car, {
 	foreignKey: 'id',
 	sourceKey: 'car_id'
 });
-
-
-
 exports.get_user_bookings = (req, res, next) => {
 	Booking.findAll({
 			where: {
@@ -96,9 +93,15 @@ exports.bookings_update = (req, res, next) => {
 			},
 		})
 		.then((result) => {
-			res.json({
-				message: 'Updated'
-			});
+			if (result != 0) {
+				res.json({
+					message: `Updated`
+				});
+			} else {
+				res.json({
+					message: `No open booking`
+				});
+			}
 		})
 		.catch((err) => error_init(`${err.message} database connection error`, 500));
 };
