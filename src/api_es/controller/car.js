@@ -18,8 +18,7 @@ exports.get_nearby_car = async (req, res, next) => {
 	let distance = sequelize.fn('ST_Distance_Sphere', sequelize.col('car_location'), location);
 	attributes.push([distance, 'distance']);
 
-	try {
-		const instances = await Car.findAll({
+	const instances = await Car.findAll({
 			attributes: attributes,
 			order: [
 				[distance, 'ASC']
@@ -28,10 +27,7 @@ exports.get_nearby_car = async (req, res, next) => {
 				car_status: 'open'
 			}, sequelize.where(distance, Sequelize.Op.ne, null)),
 		})
-	} catch (err) {
-		error_init(`${err.message}, database error`, 500)
-	}
-
+		.catch(err => next(err))
 	res.status(200)
 		.json(instances)
 };

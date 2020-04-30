@@ -28,5 +28,5 @@ describe("GET /api/nearbycars", () => {
 			.toBe(200);
 		expect(response.body.length)
 			.toBe(6);
-	});
+	}, 20000);
 });

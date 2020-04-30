@@ -35,53 +35,66 @@ exports.get_user_bookings = (req, res, next) => {
 		.catch((err) => error_init(`${err.message}database connection error`, 500));
 };
 exports.create_user_booking = async (req, res, next) => {
-	var lat1 = parseFloat(req.body.initial_loc[0]);
-	var lng1 = parseFloat(req.body.initial_loc[1]);
-	var lat2 = parseFloat(req.body.final_loc[0]);
-	var lng2 = parseFloat(req.body.final_loc[1]);
-	let attributes = Object.keys(Car.rawAttributes);
-	let location = sequelize.literal(`ST_GeomFromText('POINT(${lng1} ${lat1})')`);
-	let distance = sequelize.fn('ST_Distance_Sphere', sequelize.col('car_location'), location);
-	attributes.push([distance, 'distance']);
-
-	const instances = await Car.findAll({
-		attributes: attributes,
-		order: [
-			[distance, 'Asc']
-		],
-		where: sequelize.and({
-			car_status: 'open'
-		}, sequelize.where(distance, Sequelize.Op.lte, req.query.maxDistance)),
-	})
-
-	Booking.create({
+	const booking = await Booking.findAll({
+		where: {
 			user_id: req.userData.userId,
-			initial_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng1} ${lat1})')`),
-			final_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng2} ${lat2})')`),
-			booking_status: 'inTransit',
-			booking_amt: req.body.booking_amt,
-			car_id: instances[0].id
+			booking_status: 'inTransit'
+		},
+	})
+	if (booking.length >= 1) {
+		res.status(409)
+			.json({
+				message: 'Booking already exists'
+			})
+	} else {
+		var lat1 = parseFloat(req.body.initial_loc[0]);
+		var lng1 = parseFloat(req.body.initial_loc[1]);
+		var lat2 = parseFloat(req.body.final_loc[0]);
+		var lng2 = parseFloat(req.body.final_loc[1]);
+		let attributes = Object.keys(Car.rawAttributes);
+		let location = sequelize.literal(`ST_GeomFromText('POINT(${lng1} ${lat1})')`);
+		let distance = sequelize.fn('ST_Distance_Sphere', sequelize.col('car_location'), location);
+		attributes.push([distance, 'distance']);
+
+		const instances = await Car.findAll({
+			attributes: attributes,
+			order: [
+				[distance, 'Asc']
+			],
+			where: sequelize.and({
+				car_status: 'open'
+			}, sequelize.where(distance, Sequelize.Op.lte, req.query.maxDistance)),
 		})
-		.then((result) => {
-			let book_id = result.id
-			Car.update({
-					car_status: 'inTransit'
-				}, {
-					where: {
-						id: instances[0].id
-					}
-				})
-				.then((result) => {
-					res.status(201)
-						.json({
-							book_id: book_id,
-							message: 'Booking created'
-						})
-				})
-				.catch((err) => next(error_init('database connection error 1', 500)));
-		})
-		.catch((err) => next(error_init(err.message + 'database connection error 2', 500)))
-};
+
+		Booking.create({
+				user_id: req.userData.userId,
+				initial_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng1} ${lat1})')`),
+				final_loc: sequelize.literal(`ST_GeomFromText('POINT(${lng2} ${lat2})')`),
+				booking_status: 'inTransit',
+				booking_amt: req.body.booking_amt,
+				car_id: instances[0].id
+			})
+			.then((result) => {
+				let book_id = result.id
+				Car.update({
+						car_status: 'inTransit'
+					}, {
+						where: {
+							id: instances[0].id
+						}
+					})
+					.then((result) => {
+						res.status(201)
+							.json({
+								book_id: book_id,
+								message: 'Booking created'
+							})
+					})
+					.catch((err) => next(error_init('database connection error 1', 500)));
+			})
+			.catch((err) => next(error_init(err.message + 'database connection error 2', 500)))
+	}
+}
 
 exports.bookings_update = (req, res, next) => {
 	Booking.update({

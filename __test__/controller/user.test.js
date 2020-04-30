@@ -12,14 +12,14 @@ user = {
 }
 
 afterAll(async () => {
-	await User.findOne({
-			where: {
-				email: user.email
-			}
-		})
-		.then(result => {
-			result.destroy()
-		})
+	let result = await User.findOne({
+		where: {
+			email: user.email
+		}
+	})
+
+	result.destroy()
+
 });
 
 describe("GET /api/users", () => {
@@ -50,7 +50,7 @@ describe("POST /api/signup", () => {
 			.toBe(200);
 		expect(dbresponse.body.length)
 			.toBe(11);
-	});
+	}, 20000);
 });
 
 

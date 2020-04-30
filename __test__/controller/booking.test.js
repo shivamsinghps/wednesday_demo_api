@@ -30,7 +30,7 @@ afterAll(async () => {
 			id: bid
 		}
 	})
-	Car.update({
+	await Car.update({
 		car_status: 'open'
 	}, {
 		where: {
@@ -82,5 +82,5 @@ describe("PATCH /api/booking_update", () => {
 			.toBe(200);
 		expect(response.body.message)
 			.toBe('Updated');
-	});
+	}, 20000);
 });
