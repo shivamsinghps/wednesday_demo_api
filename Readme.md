@@ -15,9 +15,6 @@
 ### Install the Dependencies
 > npm i
 
-### Install the Dependencies
-> npm i
-
 ### Can Install more Dependency for ease
 >npm i sequelize-cli
 
