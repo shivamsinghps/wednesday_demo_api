@@ -41,7 +41,7 @@ const swaggerDocument = {
     '/nearbycars/?lng={lng}&lat={lat}&maxDistance={maxDistance}': {
       get: cars.get_nearby_car,
     },
-    '/bookings': {
+    '/bookings?page={page}': {
       get: booking.getuserbookings,
     },
     '/book?maxDistance={maxDistance}': {

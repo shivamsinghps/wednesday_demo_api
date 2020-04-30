@@ -1,9 +1,19 @@
 const getuserbookings = {
   tags: ['Bookings'],
-  description: 'Returns the bookings list to the user',
+  summary: 'Get the booking of a user',
+  description: 'Returns the 10 bookings perpage to the user',
   operationId: 'getcars',
   security: [{
     bearerAuth: [],
+  }],
+  parameters: [{
+    in: 'query',
+    name: 'page',
+    required: true,
+    schema: {
+      type: 'number',
+      description: 'page no. ',
+    },
   }],
   produces: [
     'application/xml',
@@ -16,19 +26,25 @@ const getuserbookings = {
         type: 'array',
         description: 'list of user bookings',
       },
-
     },
-    409: {
-      description: 'Invalid input',
+    401: {
+      description: 'Unauthorized',
       schema: {
-        type: 'string',
-        items: {
+        type: 'object',
+        properties: {
           message: {
             type: 'string',
-            description: 'user email id exists',
+            description: 'list of user bookings',
           },
-
         },
+      },
+    },
+    500: {
+      description: 'Server Error',
+      schema: {
+        type: 'string',
+        description: 'Error processing the request from host db',
+
       },
     },
   },
@@ -95,19 +111,38 @@ const makebookings = {
           },
         },
       },
-
+    },
+    401: {
+      description: 'Unauthorized',
+      schema: {
+        type: 'object',
+        properties: {
+          message: {
+            type: 'string',
+            description: 'list of user bookings',
+          },
+        },
+      },
     },
     409: {
-      description: 'Invalid input',
+      description: 'Booking Conflict',
       schema: {
         type: 'string',
         items: {
           message: {
             type: 'string',
-            description: 'user email id exists',
+            description: 'User Has existing Booking ',
           },
 
         },
+      },
+    },
+    500: {
+      description: 'Server Error',
+      schema: {
+        type: 'string',
+        description: 'Error processing the request from host db',
+
       },
     },
   },

@@ -1,6 +1,7 @@
 const get_nearby_car = {
   tags: ['Cars'],
-  description: 'Returns the cars near by location',
+  summary: 'Returns nearby cars',
+  description: 'Return 5 available cars near by location of the user',
   operationId: 'getcars',
   parameters: [{
     in: 'query',
@@ -25,21 +26,44 @@ const get_nearby_car = {
     required: true,
     schema: {
       type: 'number',
-      description: 'max distance of car from user',
+      description: 'max distance of car the user wants to search',
     },
   },
   ],
   security: [{
     bearerAuth: [],
   }],
+  produces: [
+    'application/xml',
+    'application/json',
+  ],
   responses: {
     200: {
       description: 'A list of cars.',
-      content: {
-        'application/json': {
-          schema: {
-            type: 'array',
+
+      schema: {
+        type: 'array',
+      },
+
+    },
+    401: {
+      description: 'Unauthorized',
+      schema: {
+        type: 'object',
+        properties: {
+          message: {
+            type: 'string',
+            description: 'list of user bookings',
           },
+        },
+      },
+    },
+    500: {
+      description: 'Server Error',
+      content: {
+        schema: {
+          type: 'string',
+          description: 'Error processing the request from host db',
         },
       },
     },

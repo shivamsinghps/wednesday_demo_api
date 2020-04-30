@@ -33,8 +33,8 @@ const signuser = {
     },
   },
   responses: {
-    200: {
-      description: 'Users loggedin',
+    202: {
+      description: 'Users loggedin (credentials accepted)',
       schema: {
         type: 'object',
         items: {
@@ -48,18 +48,23 @@ const signuser = {
           },
         },
       },
-
+    },
+    404: {
+      description: 'User Not Found',
+      schema: {
+        type: 'string',
+        description: 'User Does not exists',
+      },
     },
     409: {
-      description: 'Invalid input',
+      description: 'Conflict',
       schema: {
         type: 'string',
         items: {
           message: {
             type: 'string',
-            description: 'user email id exists',
+            description: 'user credentials conflict',
           },
-
         },
       },
     },
@@ -70,7 +75,7 @@ const postuser = {
   tags: [
     'User',
   ],
-  summary: 'Add a new user to the store',
+  summary: 'Add a new user',
   requestBody: {
     description: 'Cat Object',
     required: true,
@@ -115,13 +120,26 @@ const postuser = {
 
     },
     409: {
-      description: 'Invalid input',
+      description: 'User Already exists',
       schema: {
         type: 'string',
         items: {
           message: {
             type: 'string',
-            description: 'user email id exists',
+            description: 'user email id already present',
+          },
+
+        },
+      },
+    },
+    500: {
+      description: 'Server Error',
+      schema: {
+        type: 'string',
+        items: {
+          message: {
+            type: 'string',
+            description: 'Error processing the request from host db',
           },
 
         },
