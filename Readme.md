@@ -47,4 +47,4 @@
 
 ### Swagger Documentation
 >http://localhost:5000/api-docs/
-(using HTTP Bearer Authentication)
+(used HTTP Bearer Authentication)
