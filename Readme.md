@@ -12,8 +12,6 @@
 [version as of writing: node v10.16.3](https://nodejs.org/en/download/)
 
 
-### Install the Dependencies
-> npm i
 
 ### Install the Dependencies
 > npm i
@@ -23,6 +21,7 @@
 
 ### Testing the application
 >Change the NODE_ENV to test (example: in root/.env NODE_ENV=test)
+
 >npm test
 
 ### Starting the application
