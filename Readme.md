@@ -21,6 +21,10 @@
 ### Can Install more Dependency for ease
 >npm i sequelize-cli
 
+### Testing the application
+>Change the NODE_ENV to test (example: in root/.env NODE_ENV=test)
+>npm test
+
 ### Starting the application
 >npm start
 
